@@ -18,7 +18,7 @@ from tensorflow.keras.optimizers import Adam
 from utils import Portfolio
 
 # https://arxiv.org/pdf/1312.5602.pdf
-class Agent(Portfolio):
+class DQN_Agent(Portfolio):
     def __init__(self, state_dim, balance, is_eval=False):
         super().__init__(balance=balance)
         self.model_type = 'DQN'

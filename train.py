@@ -35,7 +35,7 @@ num_experience_replay = 0
 delta=1e-7
 action_dict = {0: 'Hold', 1: 'Buy', 2: 'Sell'}
 
-#agent = Agent(state_dim=window_size + 3, balance=initial_balance)
+#agent = DQN_Agent(state_dim=window_size + 3, balance=initial_balance)
 agent=DDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
 
 def hold(actions):
