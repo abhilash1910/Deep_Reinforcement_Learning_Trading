@@ -14,6 +14,7 @@ import time
 from utils import *
 from Agent import *
 from DDQN_Agent import *
+from DuelingDDQN_Agent import *
 
 parser = argparse.ArgumentParser(description='command line options')
 parser.add_argument('--stock_name', action="store", dest="stock_name", default='S&P_2010-2015', help="stock name")
@@ -23,7 +24,8 @@ parser.add_argument('--initial_balance', action="store", dest="initial_balance",
 inputs = parser.parse_args()
 
 #model_name="DQN"
-model_name="DDQN"
+#model_name="DDQN"
+model_name="DuelingDDQN"
 stock_name = inputs.stock_name
 window_size = inputs.window_size
 num_episode = inputs.num_episode
@@ -36,7 +38,9 @@ delta=1e-7
 action_dict = {0: 'Hold', 1: 'Buy', 2: 'Sell'}
 
 #agent = DQN_Agent(state_dim=window_size + 3, balance=initial_balance)
-agent=DDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
+#agent=DDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
+agent=DuelingDDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
+
 
 def hold(actions):
     # encourage selling for profit and liquidity
@@ -148,6 +152,8 @@ for e in range(1, num_episode + 1):
             agent.model.save('saved_models/DQN_ep' + str(e) + '.h5')
         elif model_name=='DDQN':
             agent.model.save('saved_models/DDQN_ep' + str(e) + '.h5')
+        elif model_name=='DuelingDDQN':
+            agent.model.save('saved_models/DuelingDDQN_ep' + str(e) + '.h5')
         """
         #tbd
         elif model_name == 'DDPG':
