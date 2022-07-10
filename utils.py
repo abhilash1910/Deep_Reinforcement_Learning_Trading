@@ -29,18 +29,23 @@ class Portfolio:
 
         
 def sigmoid(x):
-    return tf.math.sigmoid(x)
-
+    #try:
+    #    return tf.math.sigmoid(x)
+    #except:
+    return 1/(1+np.exp(-x))
 
 def softmax(x):
-    return tf.nmath.softmax(x)
+    #try:
+    #    return tf.nmath.softmax(x)
+    #except:
+    return np.exp(x) / np.sum(np.exp(x))
+
 
 
 def stock_close_prices(key):
     #extract data from S&P csv
     prices = []
     lines = open("data/" + key + ".csv", "r").read().splitlines()
-    print(lines)
     for line in lines[1:]:
         prices.append(float(line.split(",")[4]))
     return prices
@@ -73,7 +78,7 @@ def generate_combined_state(end_index, window_size, stock_prices, balance, num_h
     '''
     prince_state = generate_price_state(stock_prices, end_index, window_size)
     portfolio_state = generate_portfolio_state(stock_prices[end_index], balance, num_holding)
-    return np.array([np.concatenate((prince_state, portfolio_state), axis=None)])
+    return np.array([np.concatenate((np.array(prince_state), np.array(portfolio_state)), axis=None)])
 
 
 def treasury_bond_daily_return_rate():

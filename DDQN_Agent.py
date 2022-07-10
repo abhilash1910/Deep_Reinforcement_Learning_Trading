@@ -60,6 +60,7 @@ class DDQN_Agent(Portfolio):
         self.model_target.set_weights(model_target_weights)
 
     def model(self):
+        #Q=V
         model = Sequential()
         model.add(Dense(units=64, input_dim=self.state_dim, activation='relu'))
         model.add(Dense(units=32, activation='relu'))

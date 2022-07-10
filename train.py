@@ -10,11 +10,12 @@ import importlib
 import logging
 import sys
 import time
-
+import numpy as np
 from utils import *
 from Agent import *
 from DDQN_Agent import *
 from DuelingDDQN_Agent import *
+from AC_Agent import *
 
 parser = argparse.ArgumentParser(description='command line options')
 parser.add_argument('--stock_name', action="store", dest="stock_name", default='S&P_2010-2015', help="stock name")
@@ -25,7 +26,8 @@ inputs = parser.parse_args()
 
 #model_name="DQN"
 #model_name="DDQN"
-model_name="DuelingDDQN"
+#model_name="DuelingDDQN"
+model_name="AC"
 stock_name = inputs.stock_name
 window_size = inputs.window_size
 num_episode = inputs.num_episode
@@ -39,8 +41,8 @@ action_dict = {0: 'Hold', 1: 'Buy', 2: 'Sell'}
 
 #agent = DQN_Agent(state_dim=window_size + 3, balance=initial_balance)
 #agent=DDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
-agent=DuelingDDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
-
+#agent=DuelingDDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
+agent=AC_Agent(state_dim=window_size + 3, balance=initial_balance)
 
 def hold(actions):
     # encourage selling for profit and liquidity
@@ -93,14 +95,14 @@ for e in range(1, num_episode + 1):
         reward = 0
         next_state = generate_combined_state(t, window_size, stock_prices, agent.balance, len(agent.inventory))
         previous_portfolio_value = len(agent.inventory) * stock_prices[t] + agent.balance
-        """
-        if model_name == 'DDPG':
+        
+        if model_name == 'AC':
             actions = agent.act(state, t)
             action = np.argmax(actions)
         else:
-        """
-        actions = agent.model.predict(state)[0]
-        action = agent.act(state)
+        
+            actions = agent.model.predict(state)[0]
+            action = agent.act(state)
         
         # execute position
         logging.info('Step: {}\tHold signal: {:.4} \tBuy signal: {:.4} \tSell signal: {:.4}'.format(t, actions[0], actions[1], actions[2]))
@@ -154,12 +156,12 @@ for e in range(1, num_episode + 1):
             agent.model.save('saved_models/DDQN_ep' + str(e) + '.h5')
         elif model_name=='DuelingDDQN':
             agent.model.save('saved_models/DuelingDDQN_ep' + str(e) + '.h5')
-        """
+        
         #tbd
-        elif model_name == 'DDPG':
-            agent.actor.model.save_weights('saved_models/DDPG_ep{}_actor.h5'.format(str(e)))
-            agent.critic.model.save_weights('saved_models/DDPG_ep{}_critic.h5'.format(str(e)))
-        """
+        elif model_name == 'AC':
+            agent.actor.model.save_weights('saved_models/AC_ep{}_actor.h5'.format(str(e)))
+            agent.critic.model.save_weights('saved_models/AC_ep{}_critic.h5'.format(str(e)))
+        
         logging.info('model saved')
 
 logging.info('total training time: {0:.2f} min'.format((time.time() - start_time)/60))
