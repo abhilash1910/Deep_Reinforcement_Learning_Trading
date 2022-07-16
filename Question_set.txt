@@ -1,0 +1,25 @@
+Q: What is the difference between on and off policy
+Q: Why on policy update is difficult in hard actor critics
+Q: What is hard and soft actor critics
+Q: How  is D3QN different from hard actor critics
+Q: Why cant we have cache memory/experience replay in Actor in hard actor critics
+Q: What happens when advantage function becomes negative/ gradient of advantage becomes negative
+Q: What happens when we have more than one actors in hard actor critics
+Q: Is Hard A2C advantageous for trading ?
+Q: Rank these on policy methods based on estimated convergence time (actor agent GD) : Hard_A2C, Soft_A2C,A3C
+Q: How does A3C work and what is its advantage over A2C?
+Q: What is TRPO? How is it different from other on policy methods?
+Q: Why is KL Divergence used in determining surrogacy in advantage function for TRPO?
+Q: What is PPO and how does it solve the problem of TRPO?
+Q: What makes PPO the standard A2C method for on policy training?
+Q: Can we combine on and off policy networks for model free RL? If so, how?
+Q: On policy methods do not depend on past outcomes but provides better discounted returns than off policy ? T/F
+Q: Elaborate on DDPG ? What is the implication of dual gradients?
+Q: Components of DDPG which makes it both an on/off policy method.
+Q: How TD3 solves DDPG issue? Is it making use of TRPO by any chance?
+Q: What is Bellman equation? What is discrete and continuous action space? Bellman updates for on-off policy networks
+Q: Some riddles/math quizzes from Markov chains (for discrete RL).
+Q: What is Q learning and SARSA?
+Q: What do you mean by model-based RL ? How is it different from model-free RL?
+Q: How can we merge Model-Free and Model-Based RL ? (MBMF)
+Q: What are world models? How does it solve the credit assignment problem in model free rl?
