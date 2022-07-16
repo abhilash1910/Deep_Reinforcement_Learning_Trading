@@ -14,7 +14,7 @@ from tensorflow.keras.activations import softmax
 from tensorflow.keras.layers import Input, Dense, Concatenate
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.optimizers import Adam
-
+import threading
 from utils import Portfolio
 
 # Tensorflow GPU configuration
@@ -143,10 +143,12 @@ class Hard_A2C_Agent(Portfolio):
         y_batch = np.vstack(y_batch)
         states_batch = np.vstack([tup[0] for tup in mini_batch]) # batch_size * state_dim
         actions_batch = np.vstack([tup[1] for tup in mini_batch]) # batch_size * action_dim
-        
+        lock=threading.Lock()
+        lock.acquire()
         # update critic by minimizing the loss
         loss = self.critic.model.train_on_batch([states_batch, actions_batch], y_batch)
         print("Critic Loss", loss)
+        lock.release()
         # update actor using the sampled policy gradients
         action_grads_batch = self.critic.gradients(states_batch, self.actor.model.predict(states_batch)) # batch_size * action_dim
         self.actor.train(states_batch, action_grads_batch)
