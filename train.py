@@ -17,6 +17,7 @@ from DDQN_Agent import *
 from DuelingDDQN_Agent import *
 from AC_Agent import *
 from Hard_A2C import *
+from TRPO_A2C import *
 parser = argparse.ArgumentParser(description='command line options')
 parser.add_argument('--stock_name', action="store", dest="stock_name", default='S&P_2010-2015', help="stock name")
 parser.add_argument('--window_size', action="store", dest="window_size", default=10, type=int, help="span (days) of observation")
@@ -28,7 +29,8 @@ inputs = parser.parse_args()
 #model_name="DDQN"
 #model_name="DuelingDDQN"
 #model_name="AC"
-model_name="Hard_A2C"
+#model_name="Hard_A2C"
+model_name="TRPO_A2C"
 
 stock_name = inputs.stock_name
 window_size = inputs.window_size
@@ -45,7 +47,8 @@ action_dict = {0: 'Hold', 1: 'Buy', 2: 'Sell'}
 #agent=DDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
 #agent=DuelingDDQN_Agent(state_dim=window_size + 3, balance=initial_balance)
 #agent=AC_Agent(state_dim=window_size + 3, balance=initial_balance)
-agent=Hard_A2C_Agent(state_dim=window_size + 3, balance=initial_balance)
+#agent=Hard_A2C_Agent(state_dim=window_size + 3, balance=initial_balance)
+agent=TRPO_A2C_Agent(state_dim=window_size + 3, balance=initial_balance)
 
 def hold(actions):
     # encourage selling for profit and liquidity
@@ -99,7 +102,7 @@ for e in range(1, num_episode + 1):
         next_state = generate_combined_state(t, window_size, stock_prices, agent.balance, len(agent.inventory))
         previous_portfolio_value = len(agent.inventory) * stock_prices[t] + agent.balance
         
-        if model_name == 'AC' or model_name=='Hard_A2C':
+        if model_name == 'AC' or model_name=='Hard_A2C' or model_name=="TRPO_A2C":
             actions = agent.act(state, t)
             action = np.argmax(actions)
         else:
@@ -168,7 +171,9 @@ for e in range(1, num_episode + 1):
         elif model_name == 'Hard_A2C':
             agent.actor.model.save_weights('saved_models/A2C_ep{}_actor.h5'.format(str(e)))
             agent.critic.model.save_weights('saved_models/A2C_ep{}_critic.h5'.format(str(e)))
-        
+        elif model_name=="TRPO_A2C":
+            agent.actor.model.save_weights('saved_models/TRPO_A2C_ep{}_actor.h5'.format(str(e)))
+            agent.critic.model.save_weights('saved_models/TRPO_A2C_ep{}_critic.h5'.format(str(e)))
         logging.info('model saved')
 
 logging.info('total training time: {0:.2f} min'.format((time.time() - start_time)/60))
