@@ -29,6 +29,13 @@ We will be focussing on these variations of Model Free RL for creating different
  - Off policy estimates across state space of all possible values V.
  - Off policy requires single Agents without requiring explicit any policy for estimating Value function
 
+ Off policy or discrete /continuous spaces require non linear optimization which tabular RL cannot solve. This is because the number of value states greatly increases in continuous action spaces which is not possible to enumerate through tabular off policy methods mentione above. Hence Deep Off policy methods like Deep Q Network comes into play. 
+ 
+ 
+ A [DQN](https://paperswithcode.com/paper/playing-atari-with-deep-reinforcement), or Deep Q-Network, approximates a state-value function in a Q-Learning framework with a neural network. In the Atari Games case, they take in several frames of the game as an input and output state values for each action as an output.
+ It is usually used in conjunction with Experience Replay, for storing the episode steps in memory for off-policy learning, where samples are drawn from the replay memory at random. Additionally, the Q-Network is usually optimized towards a frozen target network that is periodically updated with the latest weights every  steps (where  is a hyperparameter). The latter makes training more stable by preventing short-term oscillations from a moving target. The former tackles autocorrelation that would occur from on-line learning, and having a replay memory makes the problem more like a supervised learning problem.  In case of trading, the Agent has to decide which states return the best values with the environment being all the stock prices,treasury amounts,time limits and so on . With the correct environment settings, the DQN agent tries to maximise the proit gain by choosing the correct time to select a stock for selling conditioned on different trading parameters. Also in case the Agent fails to register a threshold profit in a particular trading cycle, penalty amounts are added to allow the Agent to forecast and use its "experience bufer" to correctly determine the appropriate time to buy,hold or sell a stock. The core DQN agent is present in [Agent.py](https://github.com/abhilash1910/Deep_Reinforcement_Learning_Trading/blob/master/Agent.py).
+ <img src="https://miro.medium.com/max/1400/0*YJ2RwEPbfYag0srW">
+
 
 
 
