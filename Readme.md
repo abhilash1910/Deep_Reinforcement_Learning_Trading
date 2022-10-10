@@ -41,8 +41,8 @@ We will be focussing on these variations of Model Free RL for creating different
  
  A [Double DQN](https://arxiv.org/abs/1509.06461v3) utilises Double Q-learning to reduce overestimation by decomposing the max operation in the target into action selection and action evaluation. We evaluate the greedy policy according to the online network, but we use the target network to estimate its value. The update is the same as for DQN, but replacing the target with:
  
-Y^{DoubleDQN}_{t} = R_{t+1}+\gamma{Q}\left(S_{t+1}, \arg\max_{a}Q\left(S_{t+1}, a; \theta_{t}\right);\theta_{t}^{-}\right)
- 
+![image](https://user-images.githubusercontent.com/30946547/194940316-a98276dd-6ae3-4172-858e-bcbd9b6f43f4.png)
+
 Compared to the original formulation of Double Q-Learning, in Double DQN the weights of the second network are replaced with the weights of the target network for the evaluation of the current greedy policy. In the context of trading, the single DQN agent has 2 brains which are trying to evaluate a greedy policy through an online network. As in case of standard DQN, the replay buffer stores the recent store of events,rewards and actions which is then used by the brains to communicate on the next step. The DQN Agent is in [DDQN_Agent.py](https://github.com/abhilash1910/Deep_Reinforcement_Learning_Trading/blob/master/DDQN_Agent.py)
 
 
